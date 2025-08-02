@@ -8,16 +8,14 @@ public class MovimientoJugador : MonoBehaviour
     public Rigidbody2D rb;
     public float velocidad = 5f;
     private Animator animator;
+    public GameObject trigoPreFab;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         rb.linearVelocity = velocidad * entrada;
@@ -48,11 +46,31 @@ public class MovimientoJugador : MonoBehaviour
         animator.SetFloat("entradaX", entrada.x);
         animator.SetFloat("entradaY", entrada.y);
 
-        if(contexto.canceled){
+        if (contexto.canceled)
+        {
             animator.SetBool("estaCaminando", false);
+        }
+    }
+
+
+
+    public void SembrarTrigo(InputAction.CallbackContext contexto){
+        if(contexto.started){
+            Instantiate( trigoPreFab, transform.position, Quaternion.identity);
+
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D colision){
+
+        if(colision.CompareTag("nido")){
+            Destroy(colision.gameObject);
+            //Debug.Log("Colision con nido");
+
+           
 
         }
 
     }
+    
 
 }
