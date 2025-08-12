@@ -56,10 +56,23 @@ public class MovimientoJugador : MonoBehaviour
 
 
 
-    public void SembrarTrigo(InputAction.CallbackContext contexto){
-        if(contexto.started){
-            Instantiate( trigoPreFab, transform.position, Quaternion.identity);
+    public void SembrarTrigo(InputAction.CallbackContext contexto)
+    {
+        if (contexto.started)
+        {
+            Vector3 posicionSiembra = transform.position + new Vector3(0, 1f, 0);
+            GameObject nuevoTrigo = Instantiate(trigoPreFab, posicionSiembra, Quaternion.identity);
 
+           
+            TrigoVida trigoScript = nuevoTrigo.GetComponent<TrigoVida>();
+            if (trigoScript != null)
+            {
+                trigoScript.estadoTrigo = 0;
+                trigoScript.isMature = false;
+                trigoScript.StartCoroutine("CambiarEstado"); 
+            }
+
+            Debug.Log("Trigo sembrado y ciclo iniciado.");
         }
     }
 
@@ -67,12 +80,25 @@ public class MovimientoJugador : MonoBehaviour
     {
         if (contexto.started)
         {
-            Instantiate(jitomatePreFab, transform.position, Quaternion.identity);
+            Vector3 posicionSiembra = transform.position + new Vector3(0, 1f, 0);
+            GameObject nuevoJitomate = Instantiate(jitomatePreFab, posicionSiembra, Quaternion.identity);
 
+            JitomateVida jitomateScript = nuevoJitomate.GetComponent<JitomateVida>();
+            if (jitomateScript != null)
+            {
+                jitomateScript.estadoJitomate = 0;
+                jitomateScript.isMature = false;
+                jitomateScript.StartCoroutine("CambiarEstado");
+            }
+
+            Debug.Log(" Jitomate sembrado y ciclo iniciado.");
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision){
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Colisión detectada con: " + collision.gameObject.name + " Tag: " + collision.tag);
+
         if (collision.CompareTag("Huevo"))
         {
             Destroy(collision.gameObject);
@@ -80,17 +106,47 @@ public class MovimientoJugador : MonoBehaviour
         }
         else if (collision.CompareTag("Trigo"))
         {
-            Destroy(collision.gameObject);
-            GameManager.instancia.SumarTrigo();
+            TrigoVida trigoScript = collision.GetComponent<TrigoVida>();
+
+            if (trigoScript != null)
+            {
+                if (trigoScript.isMature)
+                {
+                    Destroy(collision.gameObject);
+                    GameManager.instancia.SumarTrigo();
+                    Debug.Log("Trigo recolectado");
+                }
+                else
+                {
+                    Debug.Log(" El trigo aún no está listo para cosechar");
+                }
+            }
+            else
+            {
+                Debug.Log("Error: El script TrigoVida no está en el objeto trigo");
+            }
         }
         else if (collision.CompareTag("Jitomate"))
         {
-            Destroy(collision.gameObject);
-            GameManager.instancia.SumarJitomate();
+            JitomateVida jitomateScript = collision.GetComponent<JitomateVida>();
+
+            if (jitomateScript != null)
+            {
+                if (jitomateScript.isMature)
+                {
+                    Destroy(collision.gameObject);
+                    GameManager.instancia.SumarJitomate();
+                    Debug.Log("Jitomate recolectado ");
+                }
+                else
+                {
+                    Debug.Log(" El jitomate aún no está listo para cosechar");
+                }
+            }
+            else
+            {
+                Debug.Log("Error: El script JitomateVida no está en el objeto jitomate");
+            }
         }
     }
-
-
 }
-
-    

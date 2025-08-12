@@ -1,19 +1,19 @@
 VisualElement {}
 
 #labelHuevos{
-	font-size: 50px;
+	font-size: 25px;
 	color: #FFFFFF:
 	margin-left: 10px;
 	margin-top: 10px;
 }
 #labelTrigo{
-font-size: 50px;
+font-size: 25px;
 	color: #FFFFFF:
 	margin-left: 10px;
 	margin-top: 10px;
 }
 #labelJitomate{
-font-size: 50px;
+font-size: 25px;
 	color: #FFFFFF:
 	margin-left: 10px;
 	margin-top: 10px;
