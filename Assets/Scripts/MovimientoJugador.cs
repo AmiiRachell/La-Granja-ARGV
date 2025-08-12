@@ -8,7 +8,9 @@ public class MovimientoJugador : MonoBehaviour
     public Rigidbody2D rb;
     public float velocidad = 5f;
     private Animator animator;
+    public GameObject huevoPreFab;
     public GameObject trigoPreFab;
+    public GameObject jitomatePreFab;
 
     void Start()
     {
@@ -60,17 +62,35 @@ public class MovimientoJugador : MonoBehaviour
 
         }
     }
-    public void OnTriggerEnter2D(Collider2D colision){
 
-        if(colision.CompareTag("nido")){
-            Destroy(colision.gameObject);
-            //Debug.Log("Colision con nido");
-
-           
+    public void SembrarJitomate(InputAction.CallbackContext contexto)
+    {
+        if (contexto.started)
+        {
+            Instantiate(jitomatePreFab, transform.position, Quaternion.identity);
 
         }
-
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision){
+        if (collision.CompareTag("Huevo"))
+        {
+            Destroy(collision.gameObject);
+            GameManager.instancia.SumarHuevo();
+        }
+        else if (collision.CompareTag("Trigo"))
+        {
+            Destroy(collision.gameObject);
+            GameManager.instancia.SumarTrigo();
+        }
+        else if (collision.CompareTag("Jitomate"))
+        {
+            Destroy(collision.gameObject);
+            GameManager.instancia.SumarJitomate();
+        }
+    }
+
 
 }
+
+    
