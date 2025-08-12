@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public void SumarHuevo()
     {
         contadorHuevo++;
-        Debug.Log("Huevos: " + contadorHuevo);
+        Debug.Log("Huevo: " + contadorHuevo);
     }
 
     public void SumarTrigo()
@@ -38,6 +38,6 @@ public class GameManager : MonoBehaviour
     public void SumarJitomate()
     {
         contadorJitomate++;
-        Debug.Log("Jitomates: " + contadorJitomate);
+        Debug.Log("Jitomate: " + contadorJitomate);
     }
 }
